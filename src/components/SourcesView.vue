@@ -6,7 +6,9 @@
 <template>
   <div class="app-body">
     <div class="sources-view">
-      <div class="sources-header">{{ sources.length }} source file{{ sources.length !== 1 ? 's' : '' }}</div>
+      <div class="sources-header">
+        {{ sources.length }} source file{{ sources.length !== 1 ? 's' : '' }}
+      </div>
       <div class="sources-list">
         <div v-for="s in sources" :key="s.source_name" class="source-card">
           <button class="source-card-header" @click="toggle(s.source_name)">
@@ -14,7 +16,9 @@
               <span class="source-card-name">{{ s.source_name }}</span>
               <span class="source-card-meta">
                 {{ s.source_part_count }} part{{ s.source_part_count !== 1 ? 's' : '' }}
-                <template v-if="s.processor"> · {{ s.processor }} {{ s.processor_version }}</template>
+                <template v-if="s.processor">
+                  · {{ s.processor }} {{ s.processor_version }}</template
+                >
                 · {{ fmtDate(s.processed_at) }}
               </span>
             </div>
@@ -36,7 +40,12 @@
             <table v-if="s.parts.length" class="parts-table">
               <thead>
                 <tr>
-                  <th>#</th><th>Title</th><th>Start</th><th>End</th><th>Duration</th><th>Lang</th>
+                  <th>#</th>
+                  <th>Title</th>
+                  <th>Start</th>
+                  <th>End</th>
+                  <th>Duration</th>
+                  <th>Lang</th>
                 </tr>
               </thead>
               <tbody>
@@ -62,11 +71,7 @@
 
     <div :class="['detail-pane', { open: !!selectedPart }]">
       <div v-if="partLoading" class="panel-loading">Loading…</div>
-      <PartPanel
-        v-else-if="partData"
-        :part="partData"
-        @close="selectedPart = null"
-      />
+      <PartPanel v-else-if="partData" :part="partData" @close="selectedPart = null" />
     </div>
   </div>
 </template>
@@ -89,9 +94,9 @@ function fmtDate(iso) {
   return new Date(iso).toLocaleString()
 }
 
-const expanded    = ref({})
+const expanded = ref({})
 const selectedPart = ref(null)
-const partData    = ref(null)
+const partData = ref(null)
 const partLoading = ref(false)
 
 function toggle(name) {
@@ -99,8 +104,9 @@ function toggle(name) {
 }
 
 function isPartSelected(sourceName, partIndex) {
-  return selectedPart.value?.source_name === sourceName
-    && selectedPart.value?.part_index === partIndex
+  return (
+    selectedPart.value?.source_name === sourceName && selectedPart.value?.part_index === partIndex
+  )
 }
 
 function selectPart(sourceName, partIndex) {
@@ -112,9 +118,12 @@ function selectPart(sourceName, partIndex) {
 }
 
 watch(selectedPart, async (sp) => {
-  if (!sp) { partData.value = null; return }
+  if (!sp) {
+    partData.value = null
+    return
+  }
   partLoading.value = true
-  await new Promise(r => setTimeout(r, 80))
+  await new Promise((r) => setTimeout(r, 80))
   partData.value = getPart(sp.source_name, sp.part_index)
   partLoading.value = false
 })

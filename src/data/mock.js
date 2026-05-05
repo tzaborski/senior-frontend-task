@@ -3,55 +3,55 @@
 // beyond swapping fetch() calls for these helpers.
 
 const NODES = [
-  { slug: 'brewing-cycle',    title: 'Brewing Cycle',     type: 'process_stage' },
-  { slug: 'pre-infusion',     title: 'Pre-infusion',      type: 'process_stage' },
-  { slug: 'extraction',       title: 'Extraction',        type: 'process_stage' },
-  { slug: 'cooldown',         title: 'Cooldown & Rest',   type: 'process_stage' },
-  { slug: 'boiler',           title: 'Boiler',            type: 'machine_element' },
-  { slug: 'pump',             title: 'Rotary Pump',       type: 'machine_element' },
-  { slug: 'group-head',       title: 'Group Head',        type: 'machine_element' },
-  { slug: 'pid-controller',   title: 'PID Controller',    type: 'machine_element' },
-  { slug: 'portafilter',      title: 'Portafilter',       type: 'machine_part' },
-  { slug: 'basket',           title: 'Filter Basket',     type: 'machine_part' },
-  { slug: 'group-gasket',     title: 'Group Gasket',      type: 'machine_part' },
-  { slug: 'backflushing',     title: 'Backflushing',      type: 'procedure' },
-  { slug: 'descaling',        title: 'Descaling',         type: 'procedure' },
-  { slug: 'crema',            title: 'Crema',             type: 'concept' },
-  { slug: 'channeling',       title: 'Channeling',        type: 'concept' },
-  { slug: 'extraction-ratio', title: 'Extraction Ratio',  type: 'concept' },
+  { slug: 'brewing-cycle', title: 'Brewing Cycle', type: 'process_stage' },
+  { slug: 'pre-infusion', title: 'Pre-infusion', type: 'process_stage' },
+  { slug: 'extraction', title: 'Extraction', type: 'process_stage' },
+  { slug: 'cooldown', title: 'Cooldown & Rest', type: 'process_stage' },
+  { slug: 'boiler', title: 'Boiler', type: 'machine_element' },
+  { slug: 'pump', title: 'Rotary Pump', type: 'machine_element' },
+  { slug: 'group-head', title: 'Group Head', type: 'machine_element' },
+  { slug: 'pid-controller', title: 'PID Controller', type: 'machine_element' },
+  { slug: 'portafilter', title: 'Portafilter', type: 'machine_part' },
+  { slug: 'basket', title: 'Filter Basket', type: 'machine_part' },
+  { slug: 'group-gasket', title: 'Group Gasket', type: 'machine_part' },
+  { slug: 'backflushing', title: 'Backflushing', type: 'procedure' },
+  { slug: 'descaling', title: 'Descaling', type: 'procedure' },
+  { slug: 'crema', title: 'Crema', type: 'concept' },
+  { slug: 'channeling', title: 'Channeling', type: 'concept' },
+  { slug: 'extraction-ratio', title: 'Extraction Ratio', type: 'concept' },
 ]
 
 const LINKS = [
-  { source: 'brewing-cycle',    target: 'pre-infusion',     label: 'begins_with' },
-  { source: 'brewing-cycle',    target: 'extraction',       label: 'progresses_to' },
-  { source: 'brewing-cycle',    target: 'cooldown',         label: 'ends_with' },
-  { source: 'boiler',           target: 'pre-infusion',     label: 'heats_water_for' },
-  { source: 'boiler',           target: 'extraction',       label: 'pressurises' },
-  { source: 'pid-controller',   target: 'boiler',           label: 'regulates' },
-  { source: 'pump',             target: 'boiler',           label: 'feeds' },
-  { source: 'pre-infusion',     target: 'pump',             label: 'uses' },
-  { source: 'extraction',       target: 'group-head',       label: 'passes_through' },
-  { source: 'extraction',       target: 'basket',           label: 'filtered_by' },
-  { source: 'extraction',       target: 'crema',            label: 'produces' },
-  { source: 'extraction',       target: 'channeling',       label: 'risk_of' },
-  { source: 'extraction',       target: 'extraction-ratio', label: 'quantified_by' },
-  { source: 'group-head',       target: 'portafilter',      label: 'accepts' },
-  { source: 'group-head',       target: 'group-gasket',     label: 'sealed_by' },
-  { source: 'portafilter',      target: 'basket',           label: 'holds' },
-  { source: 'channeling',       target: 'extraction-ratio', label: 'degrades' },
-  { source: 'backflushing',     target: 'group-head',       label: 'cleans' },
-  { source: 'backflushing',     target: 'group-gasket',     label: 'preserves' },
-  { source: 'descaling',        target: 'boiler',           label: 'treats' },
+  { source: 'brewing-cycle', target: 'pre-infusion', label: 'begins_with' },
+  { source: 'brewing-cycle', target: 'extraction', label: 'progresses_to' },
+  { source: 'brewing-cycle', target: 'cooldown', label: 'ends_with' },
+  { source: 'boiler', target: 'pre-infusion', label: 'heats_water_for' },
+  { source: 'boiler', target: 'extraction', label: 'pressurises' },
+  { source: 'pid-controller', target: 'boiler', label: 'regulates' },
+  { source: 'pump', target: 'boiler', label: 'feeds' },
+  { source: 'pre-infusion', target: 'pump', label: 'uses' },
+  { source: 'extraction', target: 'group-head', label: 'passes_through' },
+  { source: 'extraction', target: 'basket', label: 'filtered_by' },
+  { source: 'extraction', target: 'crema', label: 'produces' },
+  { source: 'extraction', target: 'channeling', label: 'risk_of' },
+  { source: 'extraction', target: 'extraction-ratio', label: 'quantified_by' },
+  { source: 'group-head', target: 'portafilter', label: 'accepts' },
+  { source: 'group-head', target: 'group-gasket', label: 'sealed_by' },
+  { source: 'portafilter', target: 'basket', label: 'holds' },
+  { source: 'channeling', target: 'extraction-ratio', label: 'degrades' },
+  { source: 'backflushing', target: 'group-head', label: 'cleans' },
+  { source: 'backflushing', target: 'group-gasket', label: 'preserves' },
+  { source: 'descaling', target: 'boiler', label: 'treats' },
 ]
 
 // Build outgoing/incoming link maps keyed by slug
 const outMap = {}
-const inMap  = {}
+const inMap = {}
 LINKS.forEach(({ source, target, label }) => {
-  const src = NODES.find(n => n.slug === source)
-  const tgt = NODES.find(n => n.slug === target)
-  ;(outMap[source] ??= []).push({ direction: 'out', slug: target,  title: tgt.title, label })
-  ;(inMap[target]  ??= []).push({ direction: 'in',  slug: source,  title: src.title, label })
+  const src = NODES.find((n) => n.slug === source)
+  const tgt = NODES.find((n) => n.slug === target)
+  ;(outMap[source] ??= []).push({ direction: 'out', slug: target, title: tgt.title, label })
+  ;(inMap[target] ??= []).push({ direction: 'in', slug: source, title: src.title, label })
 })
 
 function chunkLinks(slug) {
@@ -61,7 +61,8 @@ function chunkLinks(slug) {
 // Per-node rich content
 const DETAILS = {
   'brewing-cycle': {
-    summary: 'End-to-end shot sequence from water heating to cup delivery, taking 25–35 seconds total.',
+    summary:
+      'End-to-end shot sequence from water heating to cup delivery, taking 25–35 seconds total.',
     body_markdown: `## Overview
 
 The brewing cycle covers every step the machine performs from the moment the user
@@ -84,13 +85,26 @@ triggers a shot to the final delivery of espresso into the cup.
 > Small deviations in any parameter propagate non-linearly — a 1 °C
 > drop in brew temperature can shift extraction yield by 2–3 %.`,
     sources: [
-      { source_name: 'espresso_fundamentals.mp4', part_index: 1, start_seconds: 0,   end_seconds: 312, note: 'Cycle overview and parameter table' },
-      { source_name: 'espresso_fundamentals.mp4', part_index: 2, start_seconds: 312, end_seconds: 598, note: 'Timing deep-dive' },
+      {
+        source_name: 'espresso_fundamentals.mp4',
+        part_index: 1,
+        start_seconds: 0,
+        end_seconds: 312,
+        note: 'Cycle overview and parameter table',
+      },
+      {
+        source_name: 'espresso_fundamentals.mp4',
+        part_index: 2,
+        start_seconds: 312,
+        end_seconds: 598,
+        note: 'Timing deep-dive',
+      },
     ],
   },
 
-  'extraction': {
-    summary: 'The 20–28 second phase where pressurised hot water is forced through the compacted coffee puck.',
+  extraction: {
+    summary:
+      'The 20–28 second phase where pressurised hot water is forced through the compacted coffee puck.',
     body_markdown: `## Extraction
 
 Hot water at 9 bar is forced through the compacted coffee puck inside the
@@ -112,13 +126,26 @@ If the puck has uneven density — from poor distribution or tamping — water
 finds the path of least resistance and punches a channel through the puck,
 dramatically under-extracting the rest of the bed. See **Channeling**.`,
     sources: [
-      { source_name: 'espresso_fundamentals.mp4', part_index: 3, start_seconds: 598, end_seconds: 921, note: 'Extraction chemistry and yield window' },
-      { source_name: 'machine_maintenance_guide.pdf', part_index: 2, start_seconds: null, end_seconds: null, note: 'Troubleshooting uneven extraction' },
+      {
+        source_name: 'espresso_fundamentals.mp4',
+        part_index: 3,
+        start_seconds: 598,
+        end_seconds: 921,
+        note: 'Extraction chemistry and yield window',
+      },
+      {
+        source_name: 'machine_maintenance_guide.pdf',
+        part_index: 2,
+        start_seconds: null,
+        end_seconds: null,
+        note: 'Troubleshooting uneven extraction',
+      },
     ],
   },
 
-  'boiler': {
-    summary: 'Stainless-steel pressure vessel that heats and stores water for brewing and steam generation.',
+  boiler: {
+    summary:
+      'Stainless-steel pressure vessel that heats and stores water for brewing and steam generation.',
     body_markdown: `## Boiler
 
 Prosumer machines typically use one of three boiler architectures:
@@ -142,13 +169,26 @@ Scale build-up on the heating element increases thermal resistance, raising
 energy consumption and reducing temperature stability. **Descaling** with a
 mild citric acid solution removes calcium carbonate deposits.`,
     sources: [
-      { source_name: 'espresso_fundamentals.mp4', part_index: 2, start_seconds: 312, end_seconds: 598, note: 'Boiler architecture comparison' },
-      { source_name: 'machine_maintenance_guide.pdf', part_index: 3, start_seconds: null, end_seconds: null, note: 'Scale removal procedures' },
+      {
+        source_name: 'espresso_fundamentals.mp4',
+        part_index: 2,
+        start_seconds: 312,
+        end_seconds: 598,
+        note: 'Boiler architecture comparison',
+      },
+      {
+        source_name: 'machine_maintenance_guide.pdf',
+        part_index: 3,
+        start_seconds: null,
+        end_seconds: null,
+        note: 'Scale removal procedures',
+      },
     ],
   },
 
-  'channeling': {
-    summary: 'A defect where water finds a low-resistance path through the puck, causing uneven extraction.',
+  channeling: {
+    summary:
+      'A defect where water finds a low-resistance path through the puck, causing uneven extraction.',
     body_markdown: `## Channeling
 
 Channeling occurs when the coffee puck has a **density gradient** — a crack,
@@ -172,12 +212,19 @@ void, or area of uneven tamp — that water exploits preferentially.
 Use a distribution tool (WDT) before tamping, and a calibrated
 tamper with a flat base. Inspect the group gasket every 3 months.`,
     sources: [
-      { source_name: 'espresso_fundamentals.mp4', part_index: 3, start_seconds: 598, end_seconds: 921, note: 'Channeling causes and prevention' },
+      {
+        source_name: 'espresso_fundamentals.mp4',
+        part_index: 3,
+        start_seconds: 598,
+        end_seconds: 921,
+        note: 'Channeling causes and prevention',
+      },
     ],
   },
 
-  'backflushing': {
-    summary: 'Routine procedure that forces water back through the group head to dissolve coffee oil build-up.',
+  backflushing: {
+    summary:
+      'Routine procedure that forces water back through the group head to dissolve coffee oil build-up.',
     body_markdown: `## Backflushing
 
 Backflushing is performed by inserting a **blind basket** (no holes) into the
@@ -202,12 +249,19 @@ rinse cycles without detergent.
 > Never use backflushing detergent more frequently than weekly — it can
 > degrade rubber seals including the group gasket.`,
     sources: [
-      { source_name: 'machine_maintenance_guide.pdf', part_index: 1, start_seconds: null, end_seconds: null, note: 'Daily cleaning protocol' },
+      {
+        source_name: 'machine_maintenance_guide.pdf',
+        part_index: 1,
+        start_seconds: null,
+        end_seconds: null,
+        note: 'Daily cleaning protocol',
+      },
     ],
   },
 
-  'crema': {
-    summary: 'The reddish-brown emulsion of CO₂ bubbles and coffee oils that forms on top of espresso.',
+  crema: {
+    summary:
+      'The reddish-brown emulsion of CO₂ bubbles and coffee oils that forms on top of espresso.',
     body_markdown: `## Crema
 
 Crema is a **colloidal foam** stabilised by surfactant-like coffee oils. It
@@ -227,12 +281,19 @@ produces little crema regardless of technique.
 - Crema thickness alone does not indicate a good shot; a well-extracted
   shot with older coffee may have thin but well-flavoured crema.`,
     sources: [
-      { source_name: 'espresso_fundamentals.mp4', part_index: 3, start_seconds: 598, end_seconds: 921, note: 'Crema chemistry' },
+      {
+        source_name: 'espresso_fundamentals.mp4',
+        part_index: 3,
+        start_seconds: 598,
+        end_seconds: 921,
+        note: 'Crema chemistry',
+      },
     ],
   },
 
   'pid-controller': {
-    summary: 'Digital controller that maintains boiler temperature within ±0.3 °C using PID feedback.',
+    summary:
+      'Digital controller that maintains boiler temperature within ±0.3 °C using PID feedback.',
     body_markdown: `## PID Controller
 
 A **Proportional-Integral-Derivative** controller samples the boiler
@@ -250,12 +311,19 @@ Factory default values are calibrated for the thermal mass of the specific
 boiler. Re-tuning is rarely needed unless the boiler or thermocouple is
 replaced.`,
     sources: [
-      { source_name: 'espresso_fundamentals.mp4', part_index: 2, start_seconds: 312, end_seconds: 598, note: 'Temperature control systems' },
+      {
+        source_name: 'espresso_fundamentals.mp4',
+        part_index: 2,
+        start_seconds: 312,
+        end_seconds: 598,
+        note: 'Temperature control systems',
+      },
     ],
   },
 
-  'descaling': {
-    summary: 'Procedure to dissolve calcium carbonate deposits from the boiler and internal water paths.',
+  descaling: {
+    summary:
+      'Procedure to dissolve calcium carbonate deposits from the boiler and internal water paths.',
     body_markdown: `## Descaling
 
 Hard water deposits calcium carbonate (limescale) on any surface in contact
@@ -279,7 +347,13 @@ Use a purpose-made machine descaler or a **citric acid solution** (1 g per
 Depends on water hardness. At 300 ppm TDS (hard water) descale every
 4–6 weeks; at 100 ppm (soft water) every 3–4 months.`,
     sources: [
-      { source_name: 'machine_maintenance_guide.pdf', part_index: 3, start_seconds: null, end_seconds: null, note: 'Scale removal procedures' },
+      {
+        source_name: 'machine_maintenance_guide.pdf',
+        part_index: 3,
+        start_seconds: null,
+        end_seconds: null,
+        note: 'Scale removal procedures',
+      },
     ],
   },
 }
@@ -296,66 +370,129 @@ function defaultDetail(node) {
 // ── Exported data ────────────────────────────────────────────────────────────
 
 export const graphData = {
-  nodes: NODES.map(n => ({ slug: n.slug, title: n.title, type: n.type })),
-  links: LINKS.map(l => ({ source: l.source, target: l.target, label: l.label })),
+  nodes: NODES.map((n) => ({ slug: n.slug, title: n.title, type: n.type })),
+  links: LINKS.map((l) => ({ source: l.source, target: l.target, label: l.label })),
 }
 
 export function getChunk(slug) {
-  const node = NODES.find(n => n.slug === slug)
+  const node = NODES.find((n) => n.slug === slug)
   if (!node) return null
   const detail = DETAILS[slug] ?? defaultDetail(node)
   return {
-    slug:          node.slug,
-    title:         node.title,
-    type:          node.type,
-    summary:       detail.summary,
+    slug: node.slug,
+    title: node.title,
+    type: node.type,
+    summary: detail.summary,
     body_markdown: detail.body_markdown,
-    links:         chunkLinks(slug),
-    sources:       detail.sources,
+    links: chunkLinks(slug),
+    sources: detail.sources,
   }
 }
 
 export const sources = [
   {
-    source_name:       'espresso_fundamentals.mp4',
-    source_path:       '/recordings/espresso_fundamentals.mp4',
-    source_sha256:     'a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2',
+    source_name: 'espresso_fundamentals.mp4',
+    source_path: '/recordings/espresso_fundamentals.mp4',
+    source_sha256: 'a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2',
     source_part_count: 4,
-    processor:         'whisper',
+    processor: 'whisper',
     processor_version: '1.5.4',
-    processed_at:      '2024-03-15T10:23:00Z',
+    processed_at: '2024-03-15T10:23:00Z',
     parts: [
-      { part_index: 1, title: 'Introduction & Brewing Cycle',   start_seconds: 0,    end_seconds: 312,  duration_seconds: 312, language: 'en' },
-      { part_index: 2, title: 'Water, Pressure & Temperature',  start_seconds: 312,  end_seconds: 624,  duration_seconds: 312, language: 'en' },
-      { part_index: 3, title: 'Extraction Chemistry',           start_seconds: 624,  end_seconds: 921,  duration_seconds: 297, language: 'en' },
-      { part_index: 4, title: 'Maintenance Overview',           start_seconds: 921,  end_seconds: 1380, duration_seconds: 459, language: 'en' },
+      {
+        part_index: 1,
+        title: 'Introduction & Brewing Cycle',
+        start_seconds: 0,
+        end_seconds: 312,
+        duration_seconds: 312,
+        language: 'en',
+      },
+      {
+        part_index: 2,
+        title: 'Water, Pressure & Temperature',
+        start_seconds: 312,
+        end_seconds: 624,
+        duration_seconds: 312,
+        language: 'en',
+      },
+      {
+        part_index: 3,
+        title: 'Extraction Chemistry',
+        start_seconds: 624,
+        end_seconds: 921,
+        duration_seconds: 297,
+        language: 'en',
+      },
+      {
+        part_index: 4,
+        title: 'Maintenance Overview',
+        start_seconds: 921,
+        end_seconds: 1380,
+        duration_seconds: 459,
+        language: 'en',
+      },
     ],
   },
   {
-    source_name:       'machine_maintenance_guide.pdf',
-    source_path:       '/docs/machine_maintenance_guide.pdf',
-    source_sha256:     'f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5',
+    source_name: 'machine_maintenance_guide.pdf',
+    source_path: '/docs/machine_maintenance_guide.pdf',
+    source_sha256: 'f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5',
     source_part_count: 3,
-    processor:         'pdf_parser',
+    processor: 'pdf_parser',
     processor_version: '2.3.1',
-    processed_at:      '2024-03-20T14:45:00Z',
+    processed_at: '2024-03-20T14:45:00Z',
     parts: [
-      { part_index: 1, title: 'Daily Cleaning Protocol',   start_seconds: null, end_seconds: null, duration_seconds: null, language: 'en' },
-      { part_index: 2, title: 'Weekly Maintenance',        start_seconds: null, end_seconds: null, duration_seconds: null, language: 'en' },
-      { part_index: 3, title: 'Descaling & Troubleshooting', start_seconds: null, end_seconds: null, duration_seconds: null, language: 'en' },
+      {
+        part_index: 1,
+        title: 'Daily Cleaning Protocol',
+        start_seconds: null,
+        end_seconds: null,
+        duration_seconds: null,
+        language: 'en',
+      },
+      {
+        part_index: 2,
+        title: 'Weekly Maintenance',
+        start_seconds: null,
+        end_seconds: null,
+        duration_seconds: null,
+        language: 'en',
+      },
+      {
+        part_index: 3,
+        title: 'Descaling & Troubleshooting',
+        start_seconds: null,
+        end_seconds: null,
+        duration_seconds: null,
+        language: 'en',
+      },
     ],
   },
   {
-    source_name:       'group_head_teardown.mp4',
-    source_path:       '/recordings/group_head_teardown.mp4',
-    source_sha256:     'b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3',
+    source_name: 'group_head_teardown.mp4',
+    source_path: '/recordings/group_head_teardown.mp4',
+    source_sha256: 'b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3',
     source_part_count: 2,
-    processor:         'whisper',
+    processor: 'whisper',
     processor_version: '1.5.4',
-    processed_at:      '2024-04-02T09:10:00Z',
+    processed_at: '2024-04-02T09:10:00Z',
     parts: [
-      { part_index: 1, title: 'Disassembly & Gasket Replacement', start_seconds: 0,   end_seconds: 540,  duration_seconds: 540, language: 'en' },
-      { part_index: 2, title: 'Shower Screen & Reassembly',       start_seconds: 540, end_seconds: 1020, duration_seconds: 480, language: 'en' },
+      {
+        part_index: 1,
+        title: 'Disassembly & Gasket Replacement',
+        start_seconds: 0,
+        end_seconds: 540,
+        duration_seconds: 540,
+        language: 'en',
+      },
+      {
+        part_index: 2,
+        title: 'Shower Screen & Reassembly',
+        start_seconds: 540,
+        end_seconds: 1020,
+        duration_seconds: 480,
+        language: 'en',
+      },
     ],
   },
 ]
@@ -538,16 +675,16 @@ surface after removing the portafilter immediately after the shot.`,
 
 export function getPart(sourceName, partIndex) {
   const key = `${sourceName}__${partIndex}`
-  const source = sources.find(s => s.source_name === sourceName)
-  const part   = source?.parts.find(p => p.part_index === partIndex)
+  const source = sources.find((s) => s.source_name === sourceName)
+  const part = source?.parts.find((p) => p.part_index === partIndex)
   if (!part) return null
   return {
-    source_name:   sourceName,
-    part_index:    partIndex,
-    title:         part.title,
+    source_name: sourceName,
+    part_index: partIndex,
+    title: part.title,
     start_seconds: part.start_seconds,
-    end_seconds:   part.end_seconds,
-    language:      part.language,
+    end_seconds: part.end_seconds,
+    language: part.language,
     body_markdown: PART_CONTENT[key] ?? `## ${part.title}\n\nTranscript not available.`,
   }
 }

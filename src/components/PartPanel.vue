@@ -38,11 +38,11 @@ const props = defineProps({
 })
 const emit = defineEmits(['close'])
 
-const timeRange  = computed(() => {
+const timeRange = computed(() => {
   const s = fmtTime(props.part.start_seconds)
   const e = fmtTime(props.part.end_seconds)
   return s ? ` · ${s} – ${e}` : ''
 })
-const langSuffix = computed(() => props.part.language ? ` · ${props.part.language}` : '')
+const langSuffix = computed(() => (props.part.language ? ` · ${props.part.language}` : ''))
 const parsedBody = computed(() => marked.parse(props.part.body_markdown || ''))
 </script>

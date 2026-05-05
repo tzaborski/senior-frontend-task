@@ -6,7 +6,7 @@
   Task 2 — Algorithm: see the TODO block inside <script setup>.
 -->
 <template>
-  <div ref="containerEl" style="width:100%;height:100%" />
+  <div ref="containerEl" style="width: 100%; height: 100%" />
 </template>
 
 <script setup>
@@ -15,16 +15,16 @@ import ForceGraph from 'force-graph'
 
 // Task 1: unify with TYPE_LABELS in ChunkPanel.vue → src/utils/types.js
 const TYPE_COLORS = {
-  process_stage:   '#4f8ef7',
+  process_stage: '#4f8ef7',
   machine_element: '#27ae60',
-  machine_part:    '#16a085',
-  procedure:       '#e67e22',
-  concept:         '#8e44ad',
+  machine_part: '#16a085',
+  procedure: '#e67e22',
+  concept: '#8e44ad',
 }
 const DEFAULT_COLOR = '#95a5a6'
 
 const props = defineProps({
-  data:         { type: Object, default: () => ({ nodes: [], links: [] }) },
+  data: { type: Object, default: () => ({ nodes: [], links: [] }) },
   selectedSlug: { type: String, default: null },
   // Task 3: add filterQuery prop here and use it in nodeCanvasObject
   // filterQuery: { type: String, default: '' },
@@ -49,7 +49,7 @@ onMounted(() => {
     .linkDirectionalArrowRelPos(1)
     .linkLabel('label')
     .backgroundColor('#1a1a2e')
-    .onNodeClick(node => emit('select', node.slug))
+    .onNodeClick((node) => emit('select', node.slug))
     .nodeCanvasObject((node, ctx, globalScale) => {
       const isSelected = node.slug === props.selectedSlug
       // Task 3: compute match opacity here using props.filterQuery
@@ -100,13 +100,19 @@ onUnmounted(() => {
   fg = null
 })
 
-watch(() => props.data, d => fg?.graphData(d))
+watch(
+  () => props.data,
+  (d) => fg?.graphData(d),
+)
 
-watch(() => props.selectedSlug, slug => {
-  if (!slug || !fg) return
-  const node = fg.graphData().nodes.find(n => n.slug === slug)
-  if (node?.x != null) fg.centerAt(node.x, node.y, 400)
-})
+watch(
+  () => props.selectedSlug,
+  (slug) => {
+    if (!slug || !fg) return
+    const node = fg.graphData().nodes.find((n) => n.slug === slug)
+    if (node?.x != null) fg.centerAt(node.x, node.y, 400)
+  },
+)
 
 // ─────────────────────────────────────────────────────────────────────────────
 // TODO Task 2 — Shortest Path (BFS)
