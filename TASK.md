@@ -13,3 +13,8 @@ Given the relatively small scope of the project, I decided to:
 - Upgrade all core dependencies to their latest stable versions
 - Ensure compatibility with current documentation and ecosystem standards
 - Eliminate known vulnerabilities reported by the package manager
+
+**Test setup (Vitest)**
+To improve reliability and maintainability I introduced unit testing via Vitest.
+
+Adding a test layer at this stage ensures that future changes can be made with confidence, especially after upgrading dependencies. It also establishes a foundation for preventing regressions as the codebase evolves.
