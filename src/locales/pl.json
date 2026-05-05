@@ -1,0 +1,50 @@
+{
+  "app": {
+    "title": "Wiki Graf Wiedzy",
+    "loading": "Ładowanie…",
+    "selectNode": "Wybierz węzeł, aby zobaczyć szczegóły",
+    "language": "Język"
+  },
+  "tabs": {
+    "graph": "Graf",
+    "sources": "Pliki źródłowe"
+  },
+  "graph": {
+    "status": "{chunks} · {links}",
+    "chunks": "brak fragmentów | 1 fragment | {count} fragmenty | {count} fragmentów",
+    "links": "brak połączeń | 1 połączenie | {count} połączenia | {count} połączeń"
+  },
+  "sources": {
+    "count": "brak plików źródłowych | 1 plik źródłowy | {count} pliki źródłowe | {count} plików źródłowych",
+    "parts": "brak części | 1 część | {count} części | {count} części",
+    "path": "Ścieżka",
+    "sha256": "SHA-256",
+    "table": {
+      "index": "#",
+      "title": "Tytuł",
+      "start": "Start",
+      "end": "Koniec",
+      "duration": "Czas",
+      "language": "Język"
+    }
+  },
+  "chunkPanel": {
+    "relatedChunks": "Powiązane fragmenty",
+    "linksTo": "Linki do",
+    "referencedBy": "Wskazywany przez",
+    "sources": "Źródła",
+    "part": "Część {index}",
+    "close": "Zamknij"
+  },
+  "partPanel": {
+    "badge": "Część źródła",
+    "summary": "{source} · Część {index}"
+  },
+  "types": {
+    "process_stage": "Etap procesu",
+    "machine_element": "Element maszyny",
+    "machine_part": "Część maszyny",
+    "procedure": "Procedura",
+    "concept": "Koncepcja"
+  }
+}

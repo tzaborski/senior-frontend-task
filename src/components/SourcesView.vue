@@ -2,7 +2,7 @@
   <div class="app-body">
     <div class="sources-view">
       <div class="sources-header">
-        {{ sources.length }} source file{{ sources.length !== 1 ? 's' : '' }}
+        {{ t('sources.count', { count: sources.length }, sources.length) }}
       </div>
       <div class="sources-list">
         <div v-for="s in sources" :key="s.source_name" class="source-card">
@@ -10,7 +10,7 @@
             <div class="source-card-title">
               <span class="source-card-name">{{ s.source_name }}</span>
               <span class="source-card-meta">
-                {{ s.source_part_count }} part{{ s.source_part_count !== 1 ? 's' : '' }}
+                {{ t('sources.parts', { count: s.source_part_count }, s.source_part_count) }}
                 <template v-if="s.processor">
                   · {{ s.processor }} {{ s.processor_version }}</template
                 >
@@ -23,11 +23,11 @@
           <div v-if="expanded[s.source_name]" class="source-card-body">
             <div class="source-meta-grid">
               <template v-if="s.source_path">
-                <span class="meta-label">Path</span>
+                <span class="meta-label">{{ t('sources.path') }}</span>
                 <span class="meta-value">{{ s.source_path }}</span>
               </template>
               <template v-if="s.source_sha256">
-                <span class="meta-label">SHA-256</span>
+                <span class="meta-label">{{ t('sources.sha256') }}</span>
                 <span class="meta-value mono">{{ s.source_sha256 }}</span>
               </template>
             </div>
@@ -35,12 +35,12 @@
             <table v-if="s.parts.length" class="parts-table">
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th>Title</th>
-                  <th>Start</th>
-                  <th>End</th>
-                  <th>Duration</th>
-                  <th>Lang</th>
+                  <th>{{ t('sources.table.index') }}</th>
+                  <th>{{ t('sources.table.title') }}</th>
+                  <th>{{ t('sources.table.start') }}</th>
+                  <th>{{ t('sources.table.end') }}</th>
+                  <th>{{ t('sources.table.duration') }}</th>
+                  <th>{{ t('sources.table.language') }}</th>
                 </tr>
               </thead>
               <tbody>
@@ -65,7 +65,7 @@
     </div>
 
     <div :class="['detail-pane', { open: !!selectedPart }]">
-      <div v-if="partLoading" class="panel-loading">Loading…</div>
+      <div v-if="partLoading" class="panel-loading">{{ t('app.loading') }}</div>
       <PartPanel v-else-if="partData" :part="partData" @close="selectedPart = null" />
     </div>
   </div>
@@ -73,13 +73,16 @@
 
 <script setup>
 import { ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { sources, getPart } from '../data/mock.js'
 import PartPanel from './PartPanel.vue'
 import { fmtTime } from '../utils/format.js'
 
+const { t, locale } = useI18n()
+
 function fmtDate(iso) {
   if (!iso) return '—'
-  return new Date(iso).toLocaleString()
+  return new Date(iso).toLocaleString(locale.value)
 }
 
 const expanded = ref({})
