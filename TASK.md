@@ -18,3 +18,10 @@ Given the relatively small scope of the project, I decided to:
 To improve reliability and maintainability I introduced unit testing via Vitest.
 
 Adding a test layer at this stage ensures that future changes can be made with confidence, especially after upgrading dependencies. It also establishes a foundation for preventing regressions as the codebase evolves.
+
+**Tooling & Code Quality (DX)**
+Project now uses ESLint, Prettier, and Husky to enforce consistent code quality and prevent broken commits.
+
+- ESLint - statically analyzes code to catch bugs and enforce Vue/JS best practices.
+- Prettier - handles formatting (indentation, quotes, line length) so style is never debated in code review. 
+- Husky - manages Git hooks via a tracked `.husky/` directory. A pre-commit hook runs lint, format, and tests before every commit, catching issues before they enter Git history. 
