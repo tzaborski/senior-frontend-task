@@ -12,10 +12,22 @@
       </nav>
       <div v-if="tab === 'graph'" class="graph-search">
         <div class="graph-search-wrap">
-          <input ref="searchInputRef" v-model="filterQuery" type="search" :placeholder="t('graph.search.placeholder')"
-            :aria-label="t('graph.search.placeholder')" class="graph-search-input" />
-          <button v-if="filterQuery" type="button" class="graph-search-clear" :aria-label="t('graph.search.clear')"
-            :title="t('graph.search.clear')" @click="clearSearch">
+          <input
+            ref="searchInputRef"
+            v-model="filterQuery"
+            type="search"
+            :placeholder="t('graph.search.placeholder')"
+            :aria-label="t('graph.search.placeholder')"
+            class="graph-search-input"
+          />
+          <button
+            v-if="filterQuery"
+            type="button"
+            class="graph-search-clear"
+            :aria-label="t('graph.search.clear')"
+            :title="t('graph.search.clear')"
+            @click="clearSearch"
+          >
             &#x2715;
           </button>
         </div>
@@ -35,7 +47,12 @@
 
       <div class="lang-switcher" :class="{ 'no-status': tab !== 'graph' }">
         <label for="lang-select" class="visually-hidden">{{ t('app.language') }}</label>
-        <select id="lang-select" :value="locale" aria-label="Language" @change="onLocaleChange($event.target.value)">
+        <select
+          id="lang-select"
+          :value="locale"
+          aria-label="Language"
+          @change="onLocaleChange($event.target.value)"
+        >
           <option v-for="loc in SUPPORTED_LOCALES" :key="loc" :value="loc">
             {{ loc.toUpperCase() }}
           </option>
@@ -45,12 +62,23 @@
 
     <div v-if="tab === 'graph'" class="app-body">
       <div class="graph-pane">
-        <Graph :data="graphData" :selected-slug="selectedSlug" :filter-query="filterQuery" @select="onSelect"
-          @pathSelect="onPathSelect" @modeChange="onModeChange" />
+        <Graph
+          :data="graphData"
+          :selected-slug="selectedSlug"
+          :filter-query="filterQuery"
+          @select="onSelect"
+          @pathSelect="onPathSelect"
+          @modeChange="onModeChange"
+        />
       </div>
       <div :class="['detail-pane', { open: !!selectedSlug }]">
         <div v-if="chunkLoading" class="panel-loading">{{ t('app.loading') }}</div>
-        <ChunkPanel v-else-if="chunk" :chunk="chunk" @navigate="selectedSlug = $event" @close="selectedSlug = null" />
+        <ChunkPanel
+          v-else-if="chunk"
+          :chunk="chunk"
+          @navigate="selectedSlug = $event"
+          @close="selectedSlug = null"
+        />
         <div v-else class="empty-state">{{ t('app.selectNode') }}</div>
       </div>
     </div>
@@ -96,8 +124,8 @@ function onSelect(slug) {
 function onModeChange() {
   selectedSlug.value = null
 
-  // UX decision: when toggling path mode, clear the search query to avoid 
-  // confusion between dimming from path vs dimming from search filter. 
+  // UX decision: when toggling path mode, clear the search query to avoid
+  // confusion between dimming from path vs dimming from search filter.
 
   // filterQuery.value = ''
 }
@@ -219,11 +247,11 @@ watch(selectedSlug, async (slug) => {
   margin-left: auto;
 }
 
-.status+.lang-switcher {
+.status + .lang-switcher {
   margin-left: 0;
 }
 
-.graph-search~.status {
+.graph-search ~ .status {
   /* search already pushes itself right; status sits flush after it. */
   margin-left: 0;
 }
