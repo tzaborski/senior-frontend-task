@@ -1,12 +1,12 @@
 {
   "app": {
-    "title": "Wiki Graf Wiedzy",
+    "title": "Wiki Knowledge Graph",
     "loading": "Ładowanie…",
     "selectNode": "Wybierz węzeł, aby zobaczyć szczegóły",
     "language": "Język"
   },
   "tabs": {
-    "graph": "Graf",
+    "graph": "Wykres",
     "sources": "Pliki źródłowe"
   },
   "graph": {
@@ -23,7 +23,7 @@
       "end": "Koniec"
     },
     "search": {
-      "placeholder": "Szukaj węzłów…",
+      "placeholder": "Szukaj węzłów...",
       "clear": "Wyczyść",
       "matches": "brak dopasowań | 1 dopasowanie | {count} dopasowania | {count} dopasowań"
     }
