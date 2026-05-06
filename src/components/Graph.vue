@@ -261,6 +261,11 @@ onMounted(() => {
   })
   ro.observe(containerEl.value)
   onUnmounted(() => ro.disconnect())
+
+  // Not a fan of setTimeout, but force-graph doesn't expose a way to trigger a re-zoom after data change
+  setTimeout(() => {
+    fg?.zoomToFit(300, 100)
+  }, 500)
 })
 
 onUnmounted(() => {
