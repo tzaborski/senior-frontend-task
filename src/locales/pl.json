@@ -12,7 +12,16 @@
   "graph": {
     "status": "{chunks} · {links}",
     "chunks": "brak fragmentów | 1 fragment | {count} fragmenty | {count} fragmentów",
-    "links": "brak połączeń | 1 połączenie | {count} połączenia | {count} połączeń"
+    "links": "brak połączeń | 1 połączenie | {count} połączenia | {count} połączeń",
+    "path": {
+      "toggle": "Ścieżka",
+      "clickStart": "Kliknij pierwszy węzeł",
+      "clickEnd": "Kliknij drugi węzeł",
+      "found": "Znaleziono ścieżkę",
+      "noPathFound": "Nie znaleziono ścieżki",
+      "start": "Start",
+      "end": "Koniec"
+    }
   },
   "sources": {
     "count": "brak plików źródłowych | 1 plik źródłowy | {count} pliki źródłowe | {count} plików źródłowych",

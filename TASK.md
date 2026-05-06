@@ -35,7 +35,7 @@ Project now uses ESLint, Prettier, and Husky to enforce consistent code quality 
 
 - Husky - manages Git hooks via a tracked `.husky/` directory. A pre-commit hook runs lint, format, and tests before every commit, catching issues before they enter Git history.
 
-# Task 1: Refactor
+# Task 1: Refactoring
 
 For refactoring I prefer using AI tools such as Claude Code and OpenAI Codex as supporting tools. They are particularly effective for repetitive transformations and codebase-wide consistency, while all architectural decisions and final validations were done manually.
 
@@ -79,3 +79,33 @@ This is where AI tools really shine. No need for manual translations as both Cla
 - Replaced hardcoded labels with translation keys
 
 During this step, `TYPE_LABELS` became redundant and was removed in favor of localized strings. Since these labels are user-facing, managing them through i18n provides better flexibility and scalability.
+
+
+## Task 2: Path mode via BFS
+
+Path mode lets the user pick two nodes and visualize the shortest connection between them. The initial implementation followed the TODO block in `src/components/Graph.vue` directly; subsequent refinements were driven by usage testing and review.
+
+### Prompt used (Initial pass)
+
+>Implement Path mode in `@src/components/Graph.vue`. Use the TODO block inside the file as the spec — the eight numbered requirements (toggle button, two-click endpoint capture, undirected adjacency, BFS with predecessor map, slug/link-id sets, dim-and-ring rendering, no-path overlay, reset on toggle-off) and the two listed constraints (force-graph mutates link endpoints into node refs; BFS must stay O(V + E)).
+
+### Result
+
+-"Path" toggle button overlaid on the graph with a context-aware hint ("Click first node" → "Click second node" → "Path found" / "No path found").
+- Undirected adjacency built from props.data.links via an endpointSlug() helper that accepts both string slugs (pre-tick) and node refs (force-graph mutates link.source / link.target after the first simulation tick).
+- BFS with an index-based queue (no Array.shift), predecessor map, O(V + E).
+- Canonical a|b link id so an undirected edge lookup works regardless of which way the path traverses it.
+- Rendering: non-path nodes dim to 0.2 opacity, path endpoints get yellow rings, interior path nodes blue, path edges thickened and bright, others dimmed. "No path found" overlay shown when BFS returns null.
+- Full state reset when the toggle flips off.
+- New graph.path.* i18n keys in en.json and pl.json.
+
+## Refinements (Initial prompt criticque)
+
+- **Seed pathStart from the current selection**. Toggling Path mode while a node was already selected used to dim that node; now the selection becomes the start endpoint so the user doesn't lose context.
+- `modeChange` and `pathSelect` events. Path mode now reports state to the parent. `pathSelect` payload is `{ start, end, path, pathSlugs, pathLinkIds, found }` so the parent can react (open a panel, log the query, etc.) without owning path state.
+- **Label redability**. Selected and in-path titles got a dark fill behind the text — arrowheads and edges were eating into the glyphs at typical zoom levels.
+- **Start / End badges**. Endpoint rings alone didn't distinguish start from end. Briefly tried green/red rings, settled on small "Start" / "End" text badges above each endpoint — text differentiates without adding more accent colors. Both i18n-localized.
+
+## Refactor of Claude generated code
+
+Pulled the pure algorithm (`endpointSlug, canonicalLinkId, buildAdjacency, bfsPath, pathLinkIdSet`) out of the component into `src/utils/graph.js`, with a matching `graph.test.js` covering: string vs. node-ref endpoints, parallel edges, self-loops, traversal against the declared edge direction, shortest path among alternatives, unreachable target, and disconnected components. The component now only owns reactive state and rendering.

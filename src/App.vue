@@ -47,7 +47,13 @@
 
     <div v-if="tab === 'graph'" class="app-body">
       <div class="graph-pane">
-        <Graph :data="graphData" :selected-slug="selectedSlug" @select="onSelect" />
+        <Graph
+          :data="graphData"
+          :selected-slug="selectedSlug"
+          @select="onSelect"
+          @pathSelect="onPathSelect"
+          @modeChange="selectedSlug = null"
+        />
       </div>
       <div :class="['detail-pane', { open: !!selectedSlug }]">
         <div v-if="chunkLoading" class="panel-loading">{{ t('app.loading') }}</div>
@@ -87,6 +93,10 @@ function onSelect(slug) {
 
 function onLocaleChange(value) {
   setLocale(value)
+}
+
+function onPathSelect(event) {
+  console.log(event)
 }
 
 watch(selectedSlug, async (slug) => {

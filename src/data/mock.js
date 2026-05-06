@@ -19,6 +19,7 @@ const NODES = [
   { slug: 'crema', title: 'Crema', type: 'concept' },
   { slug: 'channeling', title: 'Channeling', type: 'concept' },
   { slug: 'extraction-ratio', title: 'Extraction Ratio', type: 'concept' },
+  // { slug: 'orphan', title: 'Orphan Node', type: 'concept' }, // Path not found edge case
 ]
 
 const LINKS = [

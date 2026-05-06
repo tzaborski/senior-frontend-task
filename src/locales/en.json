@@ -12,7 +12,16 @@
   "graph": {
     "status": "{chunks} · {links}",
     "chunks": "no chunks | 1 chunk | {count} chunks",
-    "links": "no links | 1 link | {count} links"
+    "links": "no links | 1 link | {count} links",
+    "path": {
+      "toggle": "Path",
+      "clickStart": "Click first node",
+      "clickEnd": "Click second node",
+      "found": "Path found",
+      "noPathFound": "No path found",
+      "start": "Start",
+      "end": "End"
+    }
   },
   "sources": {
     "count": "no source files | 1 source file | {count} source files",
