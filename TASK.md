@@ -81,11 +81,11 @@ This is where AI tools really shine. No need for manual translations as both Cla
 During this step, `TYPE_LABELS` became redundant and was removed in favor of localized strings. Since these labels are user-facing, managing them through i18n provides better flexibility and scalability.
 
 
-## Task 2: Path mode via BFS
+# Task 2: Path mode via BFS
 
 Path mode lets the user pick two nodes and visualize the shortest connection between them. The initial implementation followed the TODO block in `src/components/Graph.vue` directly; subsequent refinements were driven by usage testing and review.
 
-### Prompt used (Initial pass)
+### Prompt used (Initial)
 
 >Implement Path mode in `@src/components/Graph.vue`. Use the TODO block inside the file as the spec — the eight numbered requirements (toggle button, two-click endpoint capture, undirected adjacency, BFS with predecessor map, slug/link-id sets, dim-and-ring rendering, no-path overlay, reset on toggle-off) and the two listed constraints (force-graph mutates link endpoints into node refs; BFS must stay O(V + E)).
 
@@ -99,13 +99,45 @@ Path mode lets the user pick two nodes and visualize the shortest connection bet
 - Full state reset when the toggle flips off.
 - New graph.path.* i18n keys in en.json and pl.json.
 
-## Refinements (Initial prompt criticque)
+### Refinements (Initial prompt criticque)
 
 - **Seed pathStart from the current selection**. Toggling Path mode while a node was already selected used to dim that node; now the selection becomes the start endpoint so the user doesn't lose context.
 - `modeChange` and `pathSelect` events. Path mode now reports state to the parent. `pathSelect` payload is `{ start, end, path, pathSlugs, pathLinkIds, found }` so the parent can react (open a panel, log the query, etc.) without owning path state.
 - **Label redability**. Selected and in-path titles got a dark fill behind the text — arrowheads and edges were eating into the glyphs at typical zoom levels.
 - **Start / End badges**. Endpoint rings alone didn't distinguish start from end. Briefly tried green/red rings, settled on small "Start" / "End" text badges above each endpoint — text differentiates without adding more accent colors. Both i18n-localized.
 
-## Refactor of Claude generated code
+### Refactor of Claude generated code
 
 Pulled the pure algorithm (`endpointSlug, canonicalLinkId, buildAdjacency, bfsPath, pathLinkIdSet`) out of the component into `src/utils/graph.js`, with a matching `graph.test.js` covering: string vs. node-ref endpoints, parallel edges, self-loops, traversal against the declared edge direction, shortest path among alternatives, unreachable target, and disconnected components. The component now only owns reactive state and rendering.
+
+# Task 3: Implement Live Search
+
+Live search lets the user type a query into the header input and see matching nodes highlighted while the rest are dimmed. The TODO blocks in `App.vue` and `Graph.vue` already sketched the contract. Search input in the header, `filterQuery` prop passed down to `<Graph>`, opacity-based dimming inside `nodeCanvasObject`, match counter, × clear, <kbd>/</kbd> to focus, <kbd>Escape</kbd> to clear.
+
+### Prompt used (Initial)
+
+> Implement Task 3 — Live Graph Search. Use the embedded TODO blocks in `App.vue` and `src/components/Graph.vue` (filterQuery prop, opacity in nodeCanvasObject) as the spec. Search input visible only on the Graph tab, next to the chunk/link counter. Empty query → graph renders normally. Matched nodes render at full opacity, others dimmed to 20%. Show "N matches" beside the input with an clear button. Add keyboard support(/ focuses the input, Escape clears) and Polish translations.
+
+
+### Result
+
+- `filterQuery` prop added to `<Graph>`
+- `drawNode`: case-insensitive substring match against `node.title`. Matches render at full opacity, non-matches dim to 0.2
+- Matched nodes show subtle yellow accent ring and their title label regardless of zoom level, so the user can identify the match without zooming in
+- Header gained a search input (only on the Graph tab) with a clear button and a pluralized "N matches" counter
+- Global keydown handler in `App.vue`: <kbd>/</kbd> focuses the input, <kbd>Escape</kbd> clears the query
+- New `graph.search.*` i18n keys in `en.json` and `pl.json`
+
+### Refinements (Initial prompt criticque)
+
+- **Switched the input** to `v-model`. Started with `:value + @input` longhand out of habit; no reason for it here.
+- **Path / Search precedence** Found a conflict/edge case: in Path mode, non-path nodes are dimmed, so a search match that wasn't on the current path stayed dimmed. Fixed by making search win — when a query is active, opacity is decided by isMatch alone, regardless of path state. Path rings/badges still render only on path nodes; only the dimming rule was overridden.
+- <kbd>/</kbd> shouldn't be typed into the search input itself. When the search input was already focused, hitting <kbd>/</kbd> inserted a literal / into the value. Tightened the handler so the "ignore in editable" exception only applies to other editables — the search input always intercepts.
+- Removed a redundant `nodeCanvasObject` re-bind from the watch. Force-graph triggers a full repaint when any accessor setter is called, so re-binding `linkColor/linkWidth` already redraws nodes; the extra `nodeCanvasObject(drawNode)` was defensive noise.
+
+
+### Design notes
+
+- No re-init of force-graph on filter change — the canvas loop reads props.filterQuery every frame via the closure in drawNode. The watch on props.filterQuery only exists to nudge a repaint after the simulation has cooled (post 15s), where the rAF loop may otherwise be idle.
+- No debouncing on the input. Per-keystroke matching is fine on 16 nodes, but on a much larger graph or with a heavier matcher (fuzzy, regex) a small debounce (~50–100 ms) on `filterQuery` would smooth out the work. Worth adding once the dataset or matcher grows; overkill today.
+

@@ -21,6 +21,11 @@
       "noPathFound": "Nie znaleziono ścieżki",
       "start": "Start",
       "end": "Koniec"
+    },
+    "search": {
+      "placeholder": "Szukaj węzłów…",
+      "clear": "Wyczyść",
+      "matches": "brak dopasowań | 1 dopasowanie | {count} dopasowania | {count} dopasowań"
     }
   },
   "sources": {

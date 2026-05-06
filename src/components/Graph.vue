@@ -36,8 +36,7 @@ import {
 const props = defineProps({
   data: { type: Object, default: () => ({ nodes: [], links: [] }) },
   selectedSlug: { type: String, default: null },
-  // Task 3: add filterQuery prop here and use it in nodeCanvasObject
-  // filterQuery: { type: String, default: '' },
+  filterQuery: { type: String, default: '' },
 })
 const emit = defineEmits(['select', 'modeChange', 'pathSelect'])
 const { t } = useI18n()
@@ -144,7 +143,12 @@ function linkWidthFn(link) {
 function drawNode(node, ctx, globalScale) {
   const isSelected = node.slug === props.selectedSlug
   const inPath = pathSlugs.value.has(node.slug)
-  const dimmed = pathMode.value && pathSlugs.value.size > 0 && !inPath
+  const q = props.filterQuery.trim().toLowerCase()
+  const filterActive = q.length > 0
+  const isMatch = filterActive && node.title.toLowerCase().includes(q)
+  // When search is active, it wins over path dimming so matches stay visible
+  // regardless of whether they lie on the current path.
+  const dimmed = filterActive ? !isMatch : pathMode.value && pathSlugs.value.size > 0 && !inPath
 
   ctx.globalAlpha = dimmed ? 0.2 : 1
 
@@ -176,12 +180,22 @@ function drawNode(node, ctx, globalScale) {
     ctx.stroke()
   }
 
-  if (globalScale >= 1.2) {
+  // Filter match accent: subtle outline so matches read at a glance even
+  // before the title labels become legible at high zoom.
+  if (isMatch && !isSelected && !(pathMode.value && inPath)) {
+    ctx.beginPath()
+    ctx.arc(node.x, node.y, r + 2, 0, 2 * Math.PI)
+    ctx.strokeStyle = '#ffd866'
+    ctx.lineWidth = 1.25
+    ctx.stroke()
+  }
+
+  if (globalScale >= 1.2 || isMatch) {
     const fontSize = Math.min(12 / globalScale, 3)
     ctx.font = `${fontSize}px Sans-Serif`
     ctx.textAlign = 'center'
     const textY = node.y + r + fontSize + 1
-    const emphasized = isSelected || (pathMode.value && inPath)
+    const emphasized = isSelected || isMatch || (pathMode.value && inPath)
 
     if (emphasized) {
       const padX = 3
@@ -268,9 +282,9 @@ watch(
   },
 )
 
-// Re-bind link accessors when path state changes — nudges force-graph to
-// re-render even after the simulation has cooled.
-watch([pathMode, pathSlugs, pathLinkIds], () => {
+// Re-bind accessors when path state or filter changes — nudges force-graph
+// to re-render even after the simulation has cooled.
+watch([pathMode, pathSlugs, pathLinkIds, () => props.filterQuery], () => {
   if (!fg) return
   fg.linkColor(linkColorFn).linkWidth(linkWidthFn)
 })

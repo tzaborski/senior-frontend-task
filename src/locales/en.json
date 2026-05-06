@@ -21,6 +21,11 @@
       "noPathFound": "No path found",
       "start": "Start",
       "end": "End"
+    },
+    "search": {
+      "placeholder": "Search nodes…",
+      "clear": "Clear search",
+      "matches": "no matches | 1 match | {count} matches"
     }
   },
   "sources": {
